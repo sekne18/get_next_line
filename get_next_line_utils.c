@@ -6,23 +6,23 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:09:44 by jans              #+#    #+#             */
-/*   Updated: 2024/10/11 09:49:56 by jsekne           ###   ########.fr       */
+/*   Updated: 2024/10/11 16:10:49 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h" 
 
-char	*ft_strjoin(char **s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
 	char	*arr;
 	int		i;
 
 	i = 0;
-	arr = malloc((str_length(*s1, s2) + 1) * sizeof(char));
+	arr = malloc((str_length(s1, s2) + 1) * sizeof(char));
 	if (!arr)
 		return (NULL);
-	while (*(*s1))
-		arr[i++] = *(*s1)++;
+	while (*s1)
+		arr[i++] = *s1++;
 	while (*s2)
 		arr[i++] = *s2++;
 	arr[i] = '\0';
@@ -43,7 +43,7 @@ int	str_length(const char *s1, const char *s2)
 	return (i + len);
 }
 
-int	ft_strlen(char *s)
+size_t	ft_strlen(const char *s)
 {
 	int	len;
 
@@ -55,15 +55,26 @@ int	ft_strlen(char *s)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
-	char	*orig;
+	int			s_i;
+	char		*str;
+	size_t		i;
 
-	str = malloc((len + 1) * sizeof(char));
+	i = ft_strlen(s);
+	if (i <= start)
+		i = 0;
+	else
+	{
+		if (len < ft_strlen(s + start))
+			i = len;
+		else
+			i = ft_strlen(s + start);
+	}
+	str = malloc((i + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
-	orig = str;
-	while (s[start] && len-- > 0)
-		*str++ = s[start++];
-	*str = '\0';
-	return (orig);
+	s_i = 0;
+	while (i && s[start] && len--)
+		str[s_i++] = s[start++];
+	str[s_i] = '\0';
+	return (str);
 }
