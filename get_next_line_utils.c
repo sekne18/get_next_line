@@ -6,23 +6,23 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:09:44 by jans              #+#    #+#             */
-/*   Updated: 2024/10/10 08:58:04 by jans             ###   ########.fr       */
+/*   Updated: 2024/10/11 09:49:56 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h" 
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char **s1, char const *s2)
 {
 	char	*arr;
 	int		i;
 
 	i = 0;
-	arr = malloc((str_length(s1, s2) + 1) * sizeof(char));
+	arr = malloc((str_length(*s1, s2) + 1) * sizeof(char));
 	if (!arr)
 		return (NULL);
-	while (*s1)
-		arr[i++] = *s1++;
+	while (*(*s1))
+		arr[i++] = *(*s1)++;
 	while (*s2)
 		arr[i++] = *s2++;
 	arr[i] = '\0';
