@@ -6,13 +6,12 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:10:03 by jans              #+#    #+#             */
-/*   Updated: 2024/10/11 09:53:25 by jsekne           ###   ########.fr       */
+/*   Updated: 2024/10/11 11:19:41 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 10
 
 # include <stdlib.h>
 # include <unistd.h>
