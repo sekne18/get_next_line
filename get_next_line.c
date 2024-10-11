@@ -6,7 +6,7 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:09:24 by jans              #+#    #+#             */
-/*   Updated: 2024/10/11 09:56:53 by jsekne           ###   ########.fr       */
+/*   Updated: 2024/10/11 10:05:13 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (line == NULL || !contains_delimiter(line, "\n"))
 	{
-		write_to_buffer(fd, buffer, &line);	
+		write_to_buffer(fd, buffer, &line);
 		free(buffer);
 	}
 	cut_newline(&line, &newline);
@@ -34,7 +34,7 @@ char	*get_next_line(int fd)
 
 void	cut_newline(char **line, char **newline)
 {
-	char	*tmp;
+	char		*tmp;
 	size_t		i;
 
 	i = 0;
@@ -62,7 +62,7 @@ void	write_to_buffer(int fd, char *buffer, char **line)
 
 int	contains_delimiter(char *line, char *d)
 {
-	int	i;
+	int		i;
 	char	*dlm;
 
 	i = -1;
