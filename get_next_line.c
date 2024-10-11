@@ -6,7 +6,7 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:09:24 by jans              #+#    #+#             */
-/*   Updated: 2024/10/11 10:05:13 by jsekne           ###   ########.fr       */
+/*   Updated: 2024/10/11 11:18:07 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*get_next_line(int fd)
 		write_to_buffer(fd, buffer, &line);
 		free(buffer);
 	}
+	if (!line)
+		return (NULL);		
 	cut_newline(&line, &newline);
 	return (newline);
 }
@@ -44,7 +46,10 @@ void	cut_newline(char **line, char **newline)
 		i++;
 	*newline = ft_substr(*line, 0, i);
 	tmp = ft_substr(*line, i, ft_strlen(*line) - i);
-	*line = tmp;
+	if (ft_strlen(tmp) == 0)
+		*line = NULL;
+	else
+		*line = tmp;
 }
 
 void	write_to_buffer(int fd, char *buffer, char **line)
