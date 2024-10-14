@@ -6,7 +6,7 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:35:41 by jans              #+#    #+#             */
-/*   Updated: 2024/10/11 11:07:01 by jsekne           ###   ########.fr       */
+/*   Updated: 2024/10/14 06:39:57 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	main(void)
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("%s", line);
+		free(line);
 	}
-//	printf("%s", get_next_line(fd));
 	close(fd);
 	return (0);
 }

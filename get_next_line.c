@@ -6,7 +6,7 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:09:24 by jans              #+#    #+#             */
-/*   Updated: 2024/10/11 17:04:32 by jsekne           ###   ########.fr       */
+/*   Updated: 2024/10/14 08:19:45 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,51 +18,68 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	char		*newline;
 
-	if (fd == -1)
+	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free(line);
+		free(buffer);
+		line = NULL;
+		buffer = NULL;
 		return (NULL);
-	buffer = malloc(sizeof(char) * BUFFER_SIZE);
+	}
 	if (!buffer)
 		return (NULL);
-	if (line == NULL || !contains_delimiter(line, "\n"))
-		write_to_buffer(fd, buffer, &line);
+	newline = write_to_buffer(fd, buffer, line);
 	free(buffer);
-	if (!line)
-		return (NULL);		
-	cut_newline(&line, &newline);
+	buffer = NULL;
+	if (!newline)
+		return (NULL);
+	line = cut_newline(&newline);
 	return (newline);
 }
 
-void	cut_newline(char **line, char **newline)
+char	*cut_newline(char **newline)
 {
 	size_t		i;
+	char		*line;
 
 	i = 0;
-	while ((*line)[i] != '\n' && (*line)[i] != '\0')
+	while ((*newline)[i] != '\n' && (*newline)[i] != '\0')
 		i++;
-	if ((*line)[i] == '\n')
-		i++;
-	*newline = ft_substr(*line, 0, i);
-	*line = ft_substr(*line, i, ft_strlen((const char*) *line) - i);
-	if (ft_strlen(*line) == 0)
+	if ((*newline)[i] == 0 || (*newline)[1] == 0)
+		return (NULL);
+	line = ft_substr((*newline), i + 1, ft_strlen(*newline) - i);
+	if (*line == 0)
 	{
-		free(*line);
-		*line = NULL;
+		free(line);
+		line = NULL;
 	}
+	(*newline)[i + 1] = 0;
+	return (line);
 }
 
-void	write_to_buffer(int fd, char *buffer, char **line)
+char	*write_to_buffer(int fd, char *buffer, char *line)
 {
-	int	bytes_read;
+	int		bytes_read;
+	char	*tmp;
 
-	while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
+	bytes_read = 1;
+	while (bytes_read > 0)
 	{
-		if (*line == NULL || ft_strlen(*line) == 0)
-			*line = ft_substr(buffer, 0, bytes_read);
-		else
-			*line = ft_strjoin(*line, ft_substr(buffer, 0, bytes_read));
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		buffer[bytes_read] = 0;
+		if (bytes_read > 0)
+		{
+			if (!line)
+				line = ft_strdup("");
+			tmp = ft_strjoin(line, buffer);
+			free(line);
+			line = tmp;
+		}
 		if (contains_delimiter(buffer, "\n\0"))
 			break ;
 	}
+	return (line);
 }
 
 int	contains_delimiter(char *line, char *d)

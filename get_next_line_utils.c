@@ -6,7 +6,7 @@
 /*   By: jans <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:09:44 by jans              #+#    #+#             */
-/*   Updated: 2024/10/11 16:10:49 by jsekne           ###   ########.fr       */
+/*   Updated: 2024/10/13 18:30:41 by jsekne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,24 @@ size_t	ft_strlen(const char *s)
 	while (s[len])
 		len++;
 	return (len);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*new;
+	int		len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	new = malloc((len + 1) * sizeof(char));
+	if (!new)
+		return (NULL);
+	len = -1;
+	while (s[++len])
+		new[len] = s[len];
+	new[len] = '\0';
+	return (new);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
